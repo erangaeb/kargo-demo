@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="invoice">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="issueDate" type="xs:date"/>
+        <xs:element name="uniqueSequentialNumber" type="xs:string"/>
+        <xs:element name="supplierVATNumber" type="xs:string"/>
+        <xs:element name="supplierName" type="xs:string"/>
+        <xs:element name="supplierAddress" type="xs:string"/>
+        <xs:element name="customerName" type="xs:string"/>
+        <xs:element name="customerAddress" type="xs:string"/>
+        <xs:element name="goodsOrServicesDescription" type="xs:string"/>
+        <xs:element name="quantityOfGoods" type="xs:decimal"/>
+        <xs:element name="supplyDate" type="xs:date" minOccurs="0"/>
+        <xs:element name="totalTaxableValue" type="xs:decimal"/>
+        <xs:element name="vatRate" type="xs:decimal"/>
+        <xs:element name="zeroVATDetails" type="xs:string" minOccurs="0"/>
+        <xs:element name="grossValue" type="xs:decimal"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
