@@ -1,95 +1,73 @@
-Okay, based on the provided information, here's a detailed summary of e-invoicing in Hungary, covering format guides, compliance requirements, and other relevant details:
+Okay, based on the provided information, here's a detailed summary of the Hungarian e-invoicing specification, including format guides and compliance requirements:
 
-**I. Overview:**
+**Overview:**
 
-* **System Name:** NAV Online Számla (operated by Nemzeti Adó és Vámhivatal - NAV, the Hungarian Tax and Customs Authority)
-* **Mandate:** Real-Time Invoice Reporting (RTIR) is mandatory for B2B and B2C transactions. While *mandatory e-invoicing* (in the sense of requiring structured electronic invoices to be exchanged between businesses) isn't universally mandated *yet*, real-time reporting to NAV effectively necessitates electronic invoice creation.
-* **Scope:** Applies to all VAT-registered businesses in Hungary.
-* **Transactions Covered:** Primarily B2B and B2C transactions, including cross-border transactions. Initially, reporting focused on invoices with a VAT amount exceeding HUF 100,000 (approximately EUR 250), but this threshold has been removed.
-* **Governing Entity:** NAV (Nemzeti Adó és Vámhivatal)
+Hungary has a mandatory real-time invoice reporting system called **NAV Online Számla** (Online Invoice System) managed by the **National Tax and Customs Administration of Hungary (NAV)**. This system requires businesses to report invoice data to NAV in real-time. The system is governed by **Act CXXVII of 2007 on VAT** and **Act LXXXIII of 2018**.
 
-**II. Compliance Requirements:**
+**Scope:**
 
-* **Real-Time Reporting:** The core requirement is real-time reporting of invoice data to NAV's Online Számla system. This means invoice data must be submitted to NAV immediately after issuance.
-* **Registration:** Businesses must register on the Online Számla platform.
-* **Technical User & Keys:** Creation of a technical user and associated keys is required to establish a secure connection between the business's ERP system and the NAV system.
-* **Automated Submission:** Invoice data must be submitted automatically via the KOBAK online portal (or a direct API connection).
-* **Data Retention:** Invoices must be archived for 8 years from the end of the annual financial statement.
+* **Taxpayers:** All VAT-registered and resident taxpayers in Hungary.
+* **Transactions:** B2B and B2C transactions are included.
+* **Reporting Obligation:** Real-time reporting of invoice data to NAV is mandatory.
 
-**III. Invoice Format and Data Requirements:**
+**Timeline:**
 
-* **Format for NAV Submission:** **XML** is the required format for submitting invoice data to the NAV Online Számla system. NAV supports XML version 3.0.
-* **Format for Exchange with Buyer/Recipient:** While the submission to NAV must be in XML, the invoice exchanged with the buyer/recipient can be in various formats, including:
- * Paper
- * PDF
- * XML
-* **Required Invoice Data:** The invoice must contain the following information:
- * Document Title (e.g., "Invoice," "Credit Note")
- * Supplier Data:
- * Name
- * Address
- * Tax/VAT Number
- * Invoice Number
- * Invoice Date
- * Customer Data:
- * Name
- * Address
- * Date of Supply (Delivery of goods/services)
- * Description of Goods/Services
- * Quantity
- * Unit Price
- * Net Amount
- * VAT Rate
- * VAT Amount
- * Gross Amount (Total)
- * Additional Information (if applicable):
- * Discounts
- * Prepayments
- * Exchange Rates
- * VAT Exemptions (with appropriate justification)
- * Intra-Community Supply Details
-* **XML Structure:** The XML structure must conform to the specifications defined by NAV. This includes specific elements, attributes, and data types. Refer to the official NAV documentation for the precise XML schema.
+* **Real-Time Information Reporting (RTIR) introduced:** July 1st, 2018.
+* **Mandatory Real-Time Reporting for all B2C and B2B transactions:** April 1st, 2021.
 
-**IV. Penalties for Non-Compliance:**
+**Formats:**
 
-* Significant penalties can be imposed for failing to comply with the e-invoicing regulations.
-* Penalties can be up to HUF 500,000 (per invoice) for unreported or incorrectly reported invoices.
+* **NAV Online Számla Platform:** **XML** is the required format for submitting invoice data to the NAV system.
+* **Invoice Exchange:** While XML is required for reporting to NAV, invoices exchanged between businesses can be in **Paper, PDF, or XML** formats.
+* **European Norm 16931:** Supports e-invoicing in public procurement.
+* **Common Standards:** UBL and UN/CEFACT are common standards used.
+* **Digital Preservation:** PDF/A-3 is used for digital preservation of electronic documents.
 
-**V. Future Requirements:**
+**Compliance Requirements:**
 
-* Mandatory e-invoicing for the electricity and natural gas sectors is planned for January 2025. This suggests a potential broader move towards mandatory e-invoicing in the future.
+1. **Real-Time Reporting:** Invoice data must be reported to NAV in real-time.
+2. **Mandatory Data Fields:** Invoices must contain specific data fields to be compliant. These include:
 
-**VI. Key Considerations and Best Practices:**
+    * **Document Title:** (e.g., Invoice, Credit Note)
+    * **Supplier Information:**
+        * Supplier's Name and Address
+        * TAX Number/VAT Identification Number
+    * **Invoice Details:**
+        * Invoice Number and Date
+        * Date of Delivery of Goods or Services
+    * **Customer Information:**
+        * Correct Name and Billing Address of the Recipient
+    * **Item Details:**
+        * Description of Goods or Services
+        * Quantity
+        * Unit Price
+        * Net Amount
+    * **Tax Information:**
+        * VAT Amount
+        * Applicable Tax Rates
+    * **Total Amount:**
+        * Total Gross Amount
+    * **Additional Information (if applicable):**
+        * Discounts and Price Reductions
+        * Related Prepayments
+        * Exchange Rate (for invoices in non-local currency)
+        * VAT Exemption Reasons
+        * Indication of Reverse Charge Procedure (for intra-Community supply)
+3. **XML Submission:** Invoice data must be submitted to NAV in the correct XML format. This requires adherence to the NAV's specific XML schema.
+4. **Data Accuracy:** Ensure all statutory information is included and accurate to avoid delays and penalties.
+5. **Digital Archiving:** Maintain digital archives of invoices in a compliant format (e.g., PDF/A-3).
 
-* **Accuracy:** Ensure all invoice data is accurate and complete to avoid rejection by the NAV system and potential penalties.
-* **Automation:** Implement automated solutions to streamline the invoice creation and submission process. This reduces the risk of errors and improves efficiency.
-* **Integration:** Integrate your ERP system with the NAV Online Számla system to enable seamless data exchange.
-* **Compliance Monitoring:** Stay up-to-date with the latest regulations and guidelines issued by NAV.
-* **Testing:** Thoroughly test your e-invoicing solution before going live to ensure it meets all requirements.
-* **Seek Expert Advice:** Consider consulting with e-invoicing experts or solution providers to ensure compliance and optimize your e-invoicing processes.
+**Exclusions (Historically, some exclusions existed, but now largely removed):**
 
-**VII. E-Invoicing Service Providers:**
+* **Exports and EU Dispatches:** Previously excluded, but now likely included under the broader mandate.
+* **B2C Transactions:** Previously excluded until 2021, but now included.
 
-* Several providers offer solutions to help businesses comply with Hungarian e-invoicing regulations. Examples include:
- * EDITEL
- * Comarch
- * Storecove
- * Avalara
- * INFINITE IT SOLUTIONS
-* These providers offer services such as:
- * VAT compliance
- * Digital archiving
- * Supply chain finance
- * Data format verification
- * EDI (Electronic Data Interchange)
- * E-archiving
+**Key Considerations:**
 
-**VIII. Standards and Formats (General E-Invoicing Context):**
+* **NAV Online Számla System:** Businesses must integrate their systems with the NAV Online Számla platform to enable real-time reporting.
+* **XML Schema:** Understanding and implementing the NAV's XML schema is crucial for successful data submission.
+* **Penalties:** Failure to comply with the e-invoicing regulations can result in penalties.
+* **Service Providers:** Companies like EDITEL and INFINITE IT SOLUTIONS offer e-invoicing services in Hungary, including VAT-compliant processing, digital archiving, and supply chain finance. These services can help businesses comply with the regulations.
+* **Language Support:** Ensure that your e-invoicing solution supports the Hungarian language.
 
-* While Hungary mandates XML for NAV submission, it's worth noting general e-invoicing standards:
- * **European Norm 16931:** Supports e-invoicing in public procurement.
- * **UBL (Universal Business Language):** A common XML-based standard.
- * **UN/CEFACT:** Another widely used standard.
- * **PDF/A-3:** Used for digital preservation of electronic documents.
-
-**In summary, Hungarian e-invoicing is characterized by its real-time reporting requirement to the NAV Online Számla system using XML. Businesses must register, establish a secure connection, and submit invoice data electronically. Compliance is crucial to avoid penalties. While the invoice exchanged with the buyer can be in various formats, the XML submission to NAV is the key compliance aspect.**
+**In summary, the Hungarian e-invoicing system is a comprehensive real-time reporting system that requires businesses to submit invoice data to NAV in XML format. Compliance requires adherence to specific data requirements and integration with the NAV Online Számla platform.**
