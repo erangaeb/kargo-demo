@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="Invoice">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="InvoiceHead">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="InvoiceNumber" type="xs:string"/>
+              <xs:element name="InvoiceIssueDate" type="xs:date"/>
+              <xs:element name="InvoiceType" type="xs:string"/>
+              <xs:element name="InvoiceCategory" type="xs:string" minOccurs="0"/>
+              <xs:element name="InvoiceDeliveryDate" type="xs:date" minOccurs="0"/>
+              <xs:element name="InvoicePeriodStart" type="xs:date" minOccurs="0"/>
+              <xs:element name="InvoicePeriodEnd" type="xs:date" minOccurs="0"/>
+              <xs:element name="SelfBillingIndicator" type="xs:boolean" minOccurs="0"/>
+              <xs:element name="PaymentMethod" type="xs:string"/>
+              <xs:element name="PaymentDueDate" type="xs:date"/>
+              <xs:element name="CurrencyCode" type="xs:string"/>
+              <xs:element name="ExchangeRate" type="xs:decimal" minOccurs="0"/>
+              <xs:element name="Utili...
