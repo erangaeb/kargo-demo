@@ -72,16 +72,11 @@ The organization will meet AC-2 requirements by:
                         **Implementation Procedure:**
                         **Implementation Procedure:**
 
-1.  **App Registration:** Register the application within Okta's Admin Console to create an app integration (Okta Developer Guide).
-2.  **Workflow Selection (Optional):** Explore Okta Workflows templates for account creation automation (Okta Workflows Templates).
-3.  **Authorization Code Flow (If Applicable):** Implement the Authorization Code flow if the application requires user authentication (Okta Developer Guide).
-    *   Request authorization code.
-    *   Handle user authentication and consent.
-    *   Exchange code for tokens.
-4.  **Account Creation:** Utilize Okta APIs or SDKs to programmatically create the account.
-5.  **Attribute Population:** Populate required account attributes during creation.
-6.  **Group Assignment (Optional):** Assign the new account to appropriate Okta groups.
-7.  **Testing:** Verify successful account creation and access.
+1.  Register the application in Okta as an app integration, selecting OIDC - OpenID Connect as the sign-in method. Save the generated Client ID and Client secret.
+2.  Redirect the user to the authorization server's `/authorize` endpoint to request an authorization code.
+3.  Upon receiving the authorization code, exchange it for tokens by passing the code and client secret to the authorization server's `/token` endpoint.
+4.  Leverage Okta Workflows templates for account creation automation, such as sending a welcome email or activating/deactivating Okta accounts.
+5.  Utilize Okta SDKs and OAuth 2.0 helper methods for implementation.
 
                         **Responsible Party:** IDM Administrator
                         **Evidence/Artifact:** Access Request Form, Okta audit log
@@ -92,12 +87,9 @@ The organization will meet AC-2 requirements by:
                         **Implementation Procedure:**
                         **Implementation Procedure:**
 
-1.  **Initiate Account Modification:** Trigger account modification via the Okta API using SCIM 2.0 protocol (see: [SCIM 2.0 Protocol Reference](https://developer.okta.com/docs/api/openapi/okta-scim/guides/scim-20/)).
-2.  **Identify Target Account:** Use the unique user ID to specify the account to be modified.
-3.  **Define Modifications:** Construct a SCIM PATCH request containing the attributes to be changed (e.g., `userName`, `emails`, `active`).
-4.  **Execute Modification:** Send the PATCH request to the `/Users/{id}` endpoint.
-5.  **Verify Modification:** Confirm successful modification by checking the HTTP response code (200 OK) and verifying the updated account details via a GET request to the same endpoint.
-6.  **Audit Logging:** Record all account modifications, including the user ID, attributes changed, timestamp, and initiating administrator.
+1.  Modify user attributes in the IDM system.
+2.  The system will then update the corresponding attributes in the target SCIM application using a PUT or PATCH request (SCIM 2.0 Protocol Reference). PUT is used for full updates, while PATCH is used for partial updates (e.g., activating/deactivating users or syncing passwords).
+3.  Verify the successful modification by retrieving the user object from the SCIM server using a GET request.
 
                         **Responsible Party:** IDM Administrator
                         **Evidence/Artifact:** Change Request Form, Okta audit log
@@ -106,13 +98,7 @@ The organization will meet AC-2 requirements by:
                         ---
                         ### Account Disabling
                         **Implementation Procedure:**
-                        **Implementation Procedure:**
-
-1.  **Initiate Account Disabling:** Trigger account disabling via the IDM system based on defined criteria (e.g., termination date, inactivity).
-2.  **Okta API Call:** Utilize the Okta Users API to deactivate the user account. Refer to the Okta Developer documentation for the specific API endpoint and request parameters for deactivation.
-3.  **Status Verification:** Confirm successful deactivation through the Okta API response.
-4.  **Logging:** Record the deactivation event in the IDM system's audit log, including timestamp, user ID, and disabling reason.
-5.  **Notification (Optional):** Send a notification to relevant parties (e.g., user's manager, help desk) regarding the account deactivation.
+                        Disable accounts using the "Deactivate User" operation in the User Lifecycle API (see [Deactivate a User](https://developer.okta.com/docs/reference/api/users/#deactivate-user)). This action suspends the user's access.
 
                         **Responsible Party:** HR/IDM Administrator
                         **Evidence/Artifact:** HR notification, Okta audit log
@@ -123,11 +109,9 @@ The organization will meet AC-2 requirements by:
                         **Implementation Procedure:**
                         **Implementation Procedure:**
 
-1.  **Initiate Account Deletion:** Trigger account deletion via the IDM system's user interface or API.
-2.  **Okta Account Deletion:** The IDM system will call the Okta API to deactivate and then delete the user account.
-3.  **Event Logging:** Okta generates system log events related to account deletion. (See: Event Types | Okta Developer for event types).
-4.  **Policy Enforcement:** Okta account management policies are enforced during deactivation/deletion. (See: Edit the Okta Account Management Policy | Okta Identity Engine).
-5.  **Verification:** Verify account deletion in Okta Admin Console.
+1.  Deactivate the user account in Okta. See "Edit the Okta account management policy" for instructions on deactivating rules.
+2.  Delete the deactivated rule. See "Edit the Okta account management policy" for instructions on deleting deactivated rules.
+3.  Monitor the System Log API for `user.lifecycle.delete` event types to confirm successful deletion. See "Event Types" for event type details.
 
                         **Responsible Party:** IDM Administrator
                         **Evidence/Artifact:** Deletion report, Okta audit log
@@ -136,7 +120,16 @@ The organization will meet AC-2 requirements by:
                         ---
                         ### Account Review
                         **Implementation Procedure:**
-                        Regularly review user accounts and access privileges (e.g., quarterly) to ensure alignment with current roles and responsibilities. Revoke or modify access as needed. Document the review process and findings for audit purposes. See "Cloud Identity and Access Management: Security transformed | Okta" for general IAM best practices.
+                        **Implementation Procedure:**
+
+1.  **Define Review Scope:** Identify user populations and applications subject to review based on risk and compliance requirements.
+2.  **Establish Review Frequency:** Determine review cycles (e.g., quarterly, annually) based on user roles and data sensitivity.
+3.  **Implement Automated Review Tools:** Utilize IDM system features (if available) or integrate with existing tools to automate user access reviews.
+4.  **Configure Reviewer Roles:** Assign appropriate personnel (e.g., managers, application owners) as reviewers.
+5.  **Develop Review Process:** Define clear steps for reviewers to validate user access, including justification requirements and escalation procedures.
+6.  **Document Review Results:** Record review decisions, justifications, and any access modifications made.
+7.  **Remediate Access Discrepancies:** Revoke or modify access based on review findings, ensuring timely resolution of unauthorized access.
+8.  **Audit Review Process:** Regularly audit the account review process to ensure effectiveness and compliance.
 
                         **Responsible Party:** Security Officer
                         **Evidence/Artifact:** Review report, Okta user listing
@@ -147,14 +140,11 @@ The organization will meet AC-2 requirements by:
                         **Implementation Procedure:**
                         **Implementation Procedure:**
 
-1.  **Request:** Initiate temporary/emergency account requests via [defined channel - e.g., help desk ticket, form].
-2.  **Approval:** Obtain approval from [designated authority - e.g., manager, security officer] based on pre-defined criteria.
-3.  **Account Creation:** Create the account in IDM with a temporary designation and strong, unique password.
-4.  **Access Granting:** Grant only the minimum necessary privileges required for the specific task.
-5.  **Monitoring:** Monitor account activity for any anomalies.
-6.  **Expiration:** Enforce automatic account expiration after a pre-defined period (e.g., 24-72 hours).
-7.  **Revocation:** Upon expiration or completion of the task, immediately revoke access and disable the account.
-8.  **Audit:** Log all account creation, modification, and deletion activities for auditing purposes.
+1.  **Account Creation:** Create temporary/emergency accounts using the IDM system's standard account creation process, ensuring to set a clear expiration date (refer to User Manual Section on Account Creation).
+2.  **Privilege Assignment:** Assign only the minimum necessary privileges required for the specific emergency or temporary task. Document the justification for these privileges.
+3.  **Monitoring:** Implement enhanced monitoring for all temporary/emergency accounts.
+4.  **Expiration Enforcement:** Ensure the IDM system automatically disables/removes the account upon expiration.
+5.  **Post-Use Review:** Upon account expiration, conduct a review of the account's activity and access logs.
 
                         **Responsible Party:** IDM Administrator
                         **Evidence/Artifact:** Temporary account log
@@ -163,14 +153,15 @@ The organization will meet AC-2 requirements by:
                         ---
                         ### Automated/Manual Controls
                         **Implementation Procedure:**
-                        Implementation Procedure:
+                        **Implementation Procedure:**
 
-1.  **Identify Controls:** Define specific account management controls to be automated or manually enforced within Okta.
-2.  **Automate Where Possible:** Implement automated controls using Okta Workflows or similar automation tools for tasks like provisioning/de-provisioning, password resets, and group assignments.
-3.  **Document Manual Procedures:** Create detailed, step-by-step documentation for manual controls, including approval workflows and escalation paths.
-4.  **Testing:** Rigorously test both automated and manual controls to ensure effectiveness and prevent unintended consequences.
-5.  **Training:** Train relevant personnel on both automated system usage and manual control procedures.
-6.  **Monitoring & Audit:** Implement monitoring to track the effectiveness of controls and conduct regular audits to ensure compliance.
+1.  **Automated Controls:** Leverage automated provisioning and de-provisioning features within the IDM system (e.g., Okta Identity Cloud, Active Directory Pro) to manage user accounts and access rights.
+2.  **Manual Controls:** Implement manual review processes for access requests that fall outside of automated workflows or require special approvals.
+3.  **RBAC Implementation:** Define and enforce Role-Based Access Control (RBAC) policies to grant users appropriate permissions based on their roles and responsibilities.
+4.  **Integration:** Integrate the IDM system with HR systems and other relevant IT infrastructure to automate user lifecycle management.
+5.  **Auditing:** Enable comprehensive auditing and logging of all account actions within the IDM system to maintain an audit trail for compliance purposes.
+6.  **Regular Audits:** Conduct regular audits of user access rights and system configurations to ensure compliance with security policies and regulatory requirements.
+7.  **Documentation:** Document all implementation procedures, configurations, and policies related to automated and manual controls within the IDM system.
 
                         **Responsible Party:** IDM Administrator
                         **Evidence/Artifact:** System config, workflow logs
@@ -179,7 +170,15 @@ The organization will meet AC-2 requirements by:
                         ---
                         ### Notification Procedures
                         **Implementation Procedure:**
-                        Configure Okta to send email/SMS notifications for key account management events (e.g., account creation, password reset, MFA enrollment). Customize notification content and triggers based on organizational policy. See Okta User Manual, section on "Event Hooks" for configuration details.
+                        Implementation Procedure:
+
+1.  Configure Okta Event Hooks to trigger notifications for relevant account management events (e.g., account creation, modification, deletion). See Okta Developer documentation on Event Hooks.
+2.  Implement a secure web service with an internet-accessible endpoint to receive and process event hook calls from Okta.
+3.  Register and verify the endpoint with Okta, configuring appropriate filters to minimize unnecessary calls.
+4.  Utilize HTTPS and header-based authentication for secure communication between Okta and the web service.
+5.  For user-facing notifications, enable and configure Okta Verify with push notifications (Security > Multifactor in the Admin Console).
+6.  Guide users through Okta Verify setup upon initial sign-in.
+7.  Monitor the Okta System Log for debugging and troubleshooting event hook issues.
 
                         **Responsible Party:** IDM Administrator/HR
                         **Evidence/Artifact:** Email notifications, audit logs
